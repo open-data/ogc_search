@@ -272,7 +272,7 @@
             <div class="col-sm-7">{% if LANGUAGE_CODE == 'fr' %}{{ results.docs.0.country_of_origin_fr_s }}{% else %}{{ results.docs.0.country_of_origin_en_s }}{% endif %}</div>
         </div>
         {% endif %}
-        {% if not results.docs.0.number_of_bids_s %}
+        {% if results.docs.0.number_of_bids_s %}
          <div class="row">
              <div class="col-sm-5"><strong>{% trans 'Number of Bids: ' %}</strong></div>
             <div class="col-sm-7">{{ results.docs.0.number_of_bids_s }}</div>
