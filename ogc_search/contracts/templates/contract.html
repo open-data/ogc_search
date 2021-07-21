@@ -90,8 +90,8 @@
         </div>
         {% if not results.docs.0.vendor_postal_code_s == '-' %}
         <div class="row">
-            <div class="col-sm-4"><strong>{% trans 'Vendor Postal Code:' %}</div>
-            <div class="col-sm-8">{{ results.docs.0.vendor_postal_code_s }}</div>
+            <div class="col-sm-4"><strong>{% trans 'Vendor Postal Code:' %}</strong></div>
+            <div class="col-sm-8">{{ results.docs.0.vendor_postal_code_s | upper}}</div>
         </div>
         {% endif %}
         {% if results.docs.0.comments_txt_en|length > 1 or results.docs.0.comments_txt_fr|length > 1 %}
