@@ -7,11 +7,16 @@
 {% block canada_ca_search %} {% endblock canada_ca_search %}
 {% block language_switch_url %}/{{ LANGUAGE_CODE | SwapLangCode }}/gc{% endblock language_switch_url %}
 
-{% block page_title %}{% trans 'Search Grants and Contributions' %} | {% trans 'Open Government' %}{% endblock page_title %}
-{% block meta_tags %}<meta name="description" content="{% trans 'Search Grants and Contributions' %}" />{% endblock meta_tags %}
+{% block page_title %}{% if LANGUAGE_CODE == 'fr' %}{{ search_title_fr }}{% else %}{{ search_title_en }}{% endif %} | {% trans 'Open Government' %}{% endblock page_title %}
+{% block meta_tags %}<meta name="description" content="{% if LANGUAGE_CODE == 'fr' %}{{ search_title_fr }}{% else %}{{ search_title_en }}{% endif %}" />{% endblock meta_tags %}
 
 {% block adobe_analytics_meta_title %}
     <meta name="dcterms:title" content="{% trans 'Search Grants and Contributions' %}" />
+    {% if LANGUAGE_CODE == 'fr' %}
+        <meta name="dcterms:title" content="{{ search_title_fr }}" />
+    {% else %}
+        <meta name="dcterms:title" content="{{ search_title_en }}" />
+    {% endif %}
 {% endblock %}
 
 {% block top-settings %}
@@ -38,10 +43,10 @@
 
 {% block main-content %}
 {% block main-content-title %}
-<h1 property="name" id="wb-cont">{% trans "Search Grants and Contributions" %}</h1>
+<h1 property="name" id="wb-cont">{% if LANGUAGE_CODE == 'fr' %}{{ search_title_fr }}{% else %}{{ search_title_en }}{% endif %}</h1>
 {% endblock %}
 <section>
-<h1>Sorry, try again</h1>
+<strong>{% trans 'The dataset was not found, please try again.' %}</strong>
 </section>
 {% endblock %}
 

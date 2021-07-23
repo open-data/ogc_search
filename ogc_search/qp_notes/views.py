@@ -255,6 +255,8 @@ class QPCardView(QPSearchView):
         context["cdts_version"] = settings.CDTS_VERSION
         context["adobe_analytics_url"] = settings.ADOBE_ANALYTICS_URL
         context["slug"] = url_part_escape(slug)
+        context['search_title_en'] = settings.QP_DATASET_TITLE_EN
+        context['search_title_fr'] = settings.QP_DATASET_TITLE_FR
 
         if 'HTTP_REFERER' in request.META \
                 and request.META['HTTP_REFERER'] is not None \

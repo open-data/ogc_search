@@ -244,6 +244,8 @@ class NAPRecordView(NAPSearchView):
         context["slug"] = url_part_escape(slug)
         context["oc_en_url"] = settings.OPEN_CANADA_EN_URL_BASE
         context["oc_fr_url"] = settings.OPEN_CANADA_FR_URL_BASE
+        context['search_title_en'] = settings.NAP_DATASET_TITLE_EN
+        context['search_title_fr'] = settings.NAP_DATASET_TITLE_FR
         solr_search_terms = 'id:"{0}"'.format(context["slug"])
         if request.LANGUAGE_CODE == 'fr':
             search_results = search_util.solr_query(solr_search_terms,

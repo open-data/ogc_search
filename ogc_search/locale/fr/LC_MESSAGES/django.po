@@ -1913,6 +1913,9 @@ msgstr "Nous ne pouvons trouver cette page Web"
 msgid "Error 404"
 msgstr "Erreur 404"
 
+msgid "The dataset was not found, please try again."
+msgstr "Le jeu de données n'a pas été trouvé, veuillez réessayer."
+
 #: .\wet\templates\404.html:33
 msgid ""
 "We're sorry you ended up here. Sometimes a page gets moved or deleted, but "

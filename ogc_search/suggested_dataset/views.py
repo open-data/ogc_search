@@ -210,6 +210,8 @@ class SDDatasetView(SDSearchView):
         context["comments_base_fr"] = settings.SD_COMMENTS_BASE_FR
         context["votes_base_en"] = settings.SD_VOTES_BASE_EN
         context["votes_base_fr"] = settings.SD_VOTES_BASE_FR
+        context['search_title_en'] = "Suggested Datasets"
+        context['search_title_fr'] = "Jeux de données proposés"
 
         # Allow for, but do not require, a custom alert message
         if hasattr(settings, 'OPEN_DATA_PORTAL_ALERT_BASE'):
@@ -232,25 +234,23 @@ class SDDatasetView(SDSearchView):
                                                     self.solr_facet_fields_en,
                                                     self.phrase_xtras_en)
         context['results'] = search_results
-        if "status_updates_date_en_s" in search_results.docs[0]:
-            supdates = []
-            for i, update_date in enumerate(search_results.docs[0]['status_updates_date_en_s']):
-                update_reason = search_results.docs[0]['status_updates_reason_en_s'][i]
-                update_comment = search_results.docs[0]['status_updates_comment_en_s'][i]
-                supdates.append({'date': update_date, "reason": update_reason, "comment": update_comment})
-            search_results.docs[0]["status_updates_en_s"] = supdates
+        if len(search_results.docs) > 0:
+            if "status_updates_date_en_s" in search_results.docs[0]:
+                supdates = []
+                for i, update_date in enumerate(search_results.docs[0]['status_updates_date_en_s']):
+                    update_reason = search_results.docs[0]['status_updates_reason_en_s'][i]
+                    update_comment = search_results.docs[0]['status_updates_comment_en_s'][i]
+                    supdates.append({'date': update_date, "reason": update_reason, "comment": update_comment})
+                search_results.docs[0]["status_updates_en_s"] = supdates
 
+            elif "status_updates_date_fr_s" in search_results.docs[0]:
+                supdates = []
+                for i, update_date in enumerate(search_results.docs[0]['status_updates_date_fr_s']):
+                    update_reason = search_results.docs[0]['status_updates_reason_fr_s'][i]
+                    update_comment = search_results.docs[0]['status_updates_comment_fr_s'][i]
+                    supdates.append({'date': update_date, "reason": update_reason, "comment": update_comment})
+                search_results.docs[0]["status_updates_fr_s"] = supdates
 
-        elif "status_updates_date_fr_s" in search_results.docs[0]:
-            supdates = []
-            for i, update_date in enumerate(search_results.docs[0]['status_updates_date_fr_s']):
-                update_reason = search_results.docs[0]['status_updates_reason_fr_s'][i]
-                update_comment = search_results.docs[0]['status_updates_comment_fr_s'][i]
-                supdates.append({'date': update_date, "reason": update_reason, "comment": update_comment})
-            search_results.docs[0]["status_updates_fr_s"] = supdates
-
-
-        if len(search_results.docs) >= 0:
             context['id'] = slug
             return render(request, "sd_dataset.html", context)
         else:
