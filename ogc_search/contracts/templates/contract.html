@@ -109,7 +109,7 @@
         {% if not results.docs.0.buyer_name_s == '-' %}
         <div class="row">
             <div class="col-sm-4"><strong>{% trans 'Buyer Name: ' %}</strong></div>
-            <div class="col-sm-8">{{ results.docs.0.buyer_name_txt | safe }}</div>
+            <div class="col-sm-8">{{ results.docs.0.buyer_name_s | safe }}</div>
         </div>
         {% endif %}
     </div>
