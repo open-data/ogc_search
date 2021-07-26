@@ -208,8 +208,7 @@
             <div class="col-sm-5"><strong>{% trans 'Trade Agreement Exceptions and Exclusions: ' %}</strong></div>
             <div class="col-sm-7">{% if LANGUAGE_CODE == 'fr' %}{{ results.docs.0.trade_agreement_exceptions_txt_fr.0 }}{% else %}{{ results.docs.0.trade_agreement_exceptions_txt_en.0 }}{% endif %}</div>
         </div>
-        {% if contract_year > 2021 %}
-            {% if not results.docs.0.land_claims_en_s.0 == 'Unspecified' and not results.docs.0.land_claims_fr_s.0 == 'type non spécifié' %}
+        {% if not results.docs.0.land_claims_en_s == 'Unspecified' and not results.docs.0.land_claims_fr_s == 'type non spécifié' %}
             <div class="row">
                 <div class="col-sm-5"><strong>{% trans 'Comprehensive Land Claims Agreement: ' %}</strong></div>
                 <div class="col-sm-7">
@@ -219,24 +218,12 @@
                         {{ results.docs.0.land_claims_en_s }}
                     {% endif %}</div>
             </div>
-            {% endif %}
-            <div class="row">
-                <div class="col-sm-5"><strong>{% trans 'Procurement Strategy for Aboriginal Business: ' %}</strong></div>
-                <div class="col-sm-7">{% if LANGUAGE_CODE == 'fr' %}{{ results.docs.0.aboriginal_business_fr_s }}{% else %}{{ results.docs.0.aboriginal_business_en_s }}{% endif %}</div>
-            </div>
-        {% else %}
-            {% if not results.docs.0.absa_psar_ind_en_s == '-' and not results.docs.0.absa_psar_ind_fr_s == '-' %}
+        {% endif %}
+        {% if not results.docs.0.absa_psar_ind_en_s == '-' and not results.docs.0.absa_psar_ind_fr_s == '-' %}
             <div class="row">
                 <div class="col-sm-5"><strong>{% trans 'Procurement Strategy for Aboriginal Business: ' %}</strong></div>
                 <div class="col-sm-7">{% if LANGUAGE_CODE == 'fr' %}{{ results.docs.0.absa_psar_ind_fr_s }}{% else %}{{ results.docs.0.absa_psar_ind_en_s }}{% endif %}</div>
             </div>
-            {% endif %}
-            {% if not results.docs.0.lcsa_clca_ind_en_s == '-' and not results.docs.0.lcsa_clca_ind_fr_s == '-' %}
-            <div class="row">
-                <div class="col-sm-5"><strong>{% trans 'Comprehensive Land Claims Agreement: ' %}</strong></div>
-                <div class="col-sm-7">{% if LANGUAGE_CODE == 'fr' %}{{ results.docs.0.absa_psar_ind_fr_s }}{% else %}{{ results.docs.0.absa_psar_ind_en_s }}{% endif %}</div>
-            </div>
-            {% endif %}
         {% endif %}
          <div class="row">
             <div class="col-sm-5"><strong>{% trans 'Procurement Strategy for Aboriginal Business Incidental Indicator: ' %}</strong></div>
