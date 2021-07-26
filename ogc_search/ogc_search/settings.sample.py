@@ -289,6 +289,9 @@ OPEN_DATA_EXTERNAL_INFO_FR = '<div>Les applications créées par le public ont �
                              'Licence du gouvernement ouvert, est exacte, complète ou correcte. Vous utilisez donc ' \
                              'les applications et l’information qu’elles comportent, y compris l’information sous ' \
                              'licence en vertu de la Licence du gouvernement ouvert, à vos propres risques.</div>'
+# Set these values if you want a custom error message on every OD search page
+#CUSTOM_OD_ALERT_EN = ""
+#CUSTOM_OD_ALERT_FR = ""
 
 SOLR_URL = 'http://127.0.0.1:8983/solr/core_od_search'
 

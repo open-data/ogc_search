@@ -219,6 +219,10 @@ class ODSearchView(View):
         start_row = 10 * (page - 1)
 
         alerts = []
+        if hasattr(settings, "CUSTOM_OD_ALERT_EN") and request.LANGUAGE_CODE == 'en':
+            alerts.append(settings.CUSTOM_OD_ALERT_EN)
+        elif hasattr(settings, "CUSTOM_OD_ALERT_FR") and request.LANGUAGE_CODE == 'fr':
+            alerts.append(settings.CUSTOM_OD_ALERT_FR)
         if 'Open Maps'in context['col_selected_list']:
             alerts.append(_(settings.OPEN_MAPS_INFO_EN))
         elif 'Cartes Ouvertes' in context['col_selected_list']:
