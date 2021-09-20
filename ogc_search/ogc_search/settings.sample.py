@@ -43,7 +43,6 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'analytical',
-    'debug_toolbar',
     'ATI',
     'briefing_notes',
     'contracts',
@@ -66,7 +65,6 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'django.middleware.locale.LocaleMiddleware',
-    'debug_toolbar.middleware.DebugToolbarMiddleware',
     'ogc_search.middleware.QueryLoggingMiddleware',
 ]
 
@@ -131,6 +129,7 @@ DATABASES = {
         'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
     }
 }
+DEFAULT_AUTO_FIELD = 'django.db.models.AutoField'
 
 GOOGLE_ANALYTICS_PROPERTY_ID = 'UA-1234567-8'
 
