@@ -15,7 +15,7 @@ Including another URLconf
 """
 
 from django.conf import settings
-from django.conf.urls import include, url
+from django.conf.urls import include
 from django.conf.urls.i18n import i18n_patterns
 from django.contrib import admin
 from django.urls import path
@@ -111,13 +111,6 @@ if settings.ADMIN_ENABLED:
     urlpatterns += [
         path('admin/', admin.site.urls),
         ]
-
-# Added for Debug toolbar ----
-if settings.DEBUG:
-    import debug_toolbar
-    urlpatterns = [
-        url('__debug__/', include(debug_toolbar.urls)),
-    ] + urlpatterns
 
 
 
