@@ -11,8 +11,8 @@ django-redis-cache==2.1.1
 email-validator==1.1.1
 idna==2.8
 Markdown==3.2
-markdown2==2.4.0
-nltk==3.4.5
+markdown2==2.4.1
+nltk==3.6
 pysolr==3.8.1
 python-dateutil==2.8.0
 python-memcached==1.59
@@ -23,7 +23,7 @@ requests==2.25.1
 simplejson==3.17.2
 singledispatch==3.4.0.3
 six==1.12.0
-sqlparse==0.3.0
+sqlparse==0.4.2
 urllib3==1.26.6
 uWSGI==2.0.19.1; sys_platform == 'linux'
 webencodings==0.5.1
