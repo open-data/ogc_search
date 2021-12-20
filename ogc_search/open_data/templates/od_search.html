@@ -53,7 +53,7 @@
                     <div class="row">
                         {% autoescape off %}
                             {% for alert in alerts %}
-                                <section class="alert alert-info">{% trans alert %}</section>
+                                {% trans alert %}
                             {% endfor %}
                         {% endautoescape %}
                     </div>
