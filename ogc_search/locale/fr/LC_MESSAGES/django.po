@@ -2040,6 +2040,9 @@ msgstr ""
 msgid "There are no filters for this search"
 msgstr "Aucun filtre sélectionné pour cette recherche"
 
+msgid "API enabled"
+msgstr "API activée"
+
 #~ msgid "Incidental Indicator: "
 #~ msgstr ""
 #~ "Stratégie d’approvisionnement auprès des entreprises autochtones "

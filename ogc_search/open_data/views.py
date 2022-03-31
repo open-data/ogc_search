@@ -53,7 +53,7 @@ class ODSearchView(View):
                                "description_txt_fr,description_xlt_txt_fr,title_fr_s,title_txt_fr,title_xlt_fr_s,"
                                "desc_summary_txt_fr,resource_title_fr_s,resource_title_txt_fr,"
                                "keywords_fr_s,keywords_txt_fr,keywords_xlt_txt_fr,id,_version_,last_modified_tdt,"
-                               "published_tdt,resource_format_s,id_name_s,display_options_s")
+                               "published_tdt,resource_format_s,id_name_s,display_options_s,datastore_active_fr_s,")
 
         self.solr_facet_fields_fr = ['{!ex=tag_portal_type_fr_s}portal_type_fr_s',
                                      '{!ex=tag_collection_type_fr_s}collection_type_fr_s',
@@ -63,7 +63,8 @@ class ODSearchView(View):
                                      '{!ex=tag_subject_fr_s}subject_fr_s',
                                      '{!ex=tag_resource_format_s}resource_format_s',
                                      '{!ex=tag_resource_type_fr_s}resource_type_fr_s',
-                                     '{!ex=tag_update_cycle_fr_s}update_cycle_fr_s']
+                                     '{!ex=tag_update_cycle_fr_s}update_cycle_fr_s',
+                                     '{!ex=tag_datastore_active_fr_s}datastore_active_fr_s']
         self.solr_hl_fields_fr = ['description_txt_fr', 'title_txt_fr', 'owner_org_title_txt_fr', 'keywords_txt_fr',
                                   'desc_summary_txt_fr']
         self.solr_query_fields_fr = ['owner_org_title_txt_fr^2', 'description_txt_fr^3', 'description_xlt_txt_fr^3',
@@ -83,7 +84,7 @@ class ODSearchView(View):
                                "description_txt_en,description_xlt_txt_en,title_en_s,title_txt_en,title_xlt_en_s,"
                                "desc_summary_txt_en,resource_title_en_s,resource_title_txt_en,"
                                "keywords_en_s,keywords_txt_en,keywords_xlt_txt_en,id,_version_,last_modified_tdt,"
-                               "published_tdt,resource_format_s,id_name_s,display_options_s")
+                               "published_tdt,resource_format_s,id_name_s,display_options_s,datastore_active_en_s,")
         self.solr_facet_fields_en = ['{!ex=tag_portal_type_en_s}portal_type_en_s',
                                      '{!ex=tag_collection_type_en_s}collection_type_en_s',
                                      '{!ex=tag_jurisdiction_en_s}jurisdiction_en_s',
@@ -92,7 +93,8 @@ class ODSearchView(View):
                                      '{!ex=tag_subject_en_s}subject_en_s',
                                      '{!ex=tag_resource_format_s}resource_format_s',
                                      '{!ex=tag_resource_type_en_s}resource_type_en_s',
-                                     '{!ex=tag_update_cycle_en_s}update_cycle_en_s']
+                                     '{!ex=tag_update_cycle_en_s}update_cycle_en_s',
+                                     '{!ex=tag_datastore_active_en_s}datastore_active_en_s']
         self.solr_facet_limits_en = {'f.keywords_en_s.facet.limit': 250,
                                      'f.keywords_en_s.facet.sort': 'count'}
         self.solr_hl_fields_en = ['description_txt_en', 'title_txt_en', 'owner_org_title_txt_en', 'keywords_txt_en',
@@ -161,6 +163,7 @@ class ODSearchView(View):
         solr_search_fmts   = ''
         solr_search_rsct   = ''
         solr_search_updc   = ''
+        solr_search_dsa    = ''
 
         solr_search_ids = request.GET.get('ids', '')
 
@@ -184,6 +187,7 @@ class ODSearchView(View):
             solr_search_fmts   = request.GET.get('od-search-format', '')
             solr_search_rsct   = request.GET.get('od-search-rsct', '')
             solr_search_updc   = request.GET.get('od-search-update', '')
+            solr_search_dsa    = request.GET.get('od-search-dsa', '')
 
         context = dict(search_text=search_text,
                        portal_selected_list=str(solr_search_portal).split('|'),
@@ -204,6 +208,8 @@ class ODSearchView(View):
                        rsct_selected=solr_search_rsct,
                        update_selected_list=str(solr_search_updc).split('|'),
                        update_selected=solr_search_updc,
+                       dsa_selected_list=str(solr_search_dsa).split('|'),
+                       dsa_selected=solr_search_dsa,
                        )
 
         # Calculate a starting row for the Solr search results. We only retrieve one page at a time
@@ -255,7 +261,8 @@ class ODSearchView(View):
                                subject_fr_s=context['subject_selected'],
                                resource_format_s=context['format_selected'],
                                resource_type_fr_s=context['rsct_selected'],
-                               update_cycle_fr_s=context['update_selected'])
+                               update_cycle_fr_s=context['update_selected'],
+                               datastore_active_fr_s=context['dsa_selected'])
         else:
             facets_dict = dict(portal_type_en_s=context['portal_selected'],
                                collection_type_en_s=context['col_selected'],
@@ -265,7 +272,8 @@ class ODSearchView(View):
                                subject_en_s=context['subject_selected'],
                                resource_format_s=context['format_selected'],
                                resource_type_en_s=context['rsct_selected'],
-                               update_cycle_en_s=context['update_selected'])
+                               update_cycle_en_s=context['update_selected'],
+                               datastore_active_en_s=context['dsa_selected'])
 
         # Retrieve search results and transform facets results to python dict
         if mlt_search_id == '':
@@ -323,6 +331,8 @@ class ODSearchView(View):
                 search_results.facets['facet_fields']['resource_type_fr_s'])
             context['frequency_facets'] = search_util.convert_facet_list_to_dict(
                 search_results.facets['facet_fields']['update_cycle_fr_s'])
+            context['dsa_facets'] = search_util.convert_facet_list_to_dict(
+                search_results.facets['facet_fields']['datastore_active_fr_s'])
         else:
             context['portal_facets'] = search_util.convert_facet_list_to_dict(
                 search_results.facets['facet_fields']['portal_type_en_s'])
@@ -344,6 +354,8 @@ class ODSearchView(View):
                 search_results.facets['facet_fields']['resource_type_en_s'])
             context['frequency_facets'] = search_util.convert_facet_list_to_dict(
                 search_results.facets['facet_fields']['update_cycle_en_s'])
+            context['dsa_facets'] = search_util.convert_facet_list_to_dict(
+                search_results.facets['facet_fields']['datastore_active_en_s'])
 
         context['results'] = search_results
 

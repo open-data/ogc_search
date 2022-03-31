@@ -83,6 +83,8 @@ with open(sys.argv[1], 'r', encoding='utf8', errors="ignore") as j:
             resource_title_en = []
             resource_title_fr = []
 
+            dsa = False
+
             for r in o['resources']:
                 resource_type_en.append(
                     controlled_lists['resource_type']['en'][r['resource_type']]
@@ -100,6 +102,10 @@ with open(sys.argv[1], 'r', encoding='utf8', errors="ignore") as j:
                     resource_title_fr.append(r['name_translated']['fr'].strip())
                 elif 'en-t-fr' in r['name_translated']:
                     resource_title_fr.append(r['name_translated']['en-t-fr'].strip())
+
+                if 'datastore_active' in r:
+                    if r['datastore_active']:
+                        dsa = True
 
             display_options = []
             if 'display_flags' in o:
@@ -125,16 +131,7 @@ with open(sys.argv[1], 'r', encoding='utf8', errors="ignore") as j:
                 'id_name_s': o['name'],
                 'owner_org_s': o['organization']['name'],
                 'author_txt': '' if o['author'] is None else o['author'],
-                'description_txt_en': o['notes_translated']['en'] if 'en' in o['notes_translated'] else '',
-                'description_txt_fr': o['notes_translated']['fr'] if 'fr' in o['notes_translated'] else '',
-                'description_xlt_txt_fr': o['notes_translated']['fr-t-en'] if 'fr-t-en' in o[
-                    'notes_translated'] else '',
-                'description_xlt_txt_en': o['notes_translated']['en-t-fr'] if 'en-t-fr' in o[
-                    'notes_translated'] else '',
-                'title_en_s': str(o['title_translated']['en']).strip() if 'en' in o['title_translated'] else '',
-                'title_fr_s': str(o['title_translated']['fr']).strip() if 'fr' in o['title_translated'] else '',
-                'title_xlt_fr_s': o['title_translated']['fr-t-en'] if 'fr-t-en' in o['title_translated'] else '',
-                'title_xlt_en_s': o['title_translated']['en-t-fr'] if 'en-t-fr' in o['title_translated'] else '',
+
                 'resource_format_s': list(set(resource_fmt)),
                 'resource_title_en_s': resource_title_en,
                 'resource_title_fr_s': resource_title_fr,
@@ -152,6 +149,29 @@ with open(sys.argv[1], 'r', encoding='utf8', errors="ignore") as j:
                 od_obj['desc_summary_txt_fr'] = get_summary(str(o['notes_translated']['fr']).strip(), 'fr')
             elif 'en-t-fr' in o['notes_translated']:
                 od_obj['desc_summary_txt_fr'] = get_summary(str(o['notes_translated']['en-t-fr']).strip(), 'fr')
+
+            if 'en' in o['title_translated']:
+                od_obj['title_en_s'] = o['title_translated']['en']
+            else:
+                od_obj['title_en_s'] = ''
+            if 'fr' in o['title_translated']:
+                od_obj['title_fr_s'] = o['title_translated']['fr']
+            else:
+                od_obj['title_fr_s'] = ''
+
+            if 'fr-t-en' in o['title_translated']:
+                od_obj['title_xlt_fr_s'] = o['title_translated']['fr-t-en']
+            if 'en-t-fr' in o['title_translated']:
+                od_obj['title_xlt_en_s'] = o['title_translated']['en-t-fr']
+
+            if 'en' in o['notes_translated']:
+                od_obj['description_txt_en'] = o['notes_translated']['en']
+            if 'fr' in o['notes_translated']:
+                od_obj['description_txt_fr'] = o['notes_translated']['fr']
+            if 'fr-t-en' in o['notes_translated']:
+                od_obj['description_xlt_fr_s'] = o['notes_translated']['fr-t-en']
+            if 'en-t-fr' in o['notes_translated']:
+                od_obj['description_xlt_en_s'] = o['notes_translated']['en-t-fr']
 
             if 'data_series_issue_identification' in o:
                 if 'en' in o['data_series_issue_identification']:
@@ -174,6 +194,14 @@ with open(sys.argv[1], 'r', encoding='utf8', errors="ignore") as j:
                 od_obj['keywords_fr_s'] = o['keywords']['fr']
             elif 'en-t-fr' in o['keywords']:
                 od_obj['keywords_fr_s'] = o['keywords']['en-t-fr']
+
+            if dsa:
+                od_obj['datastore_active_en_s'] = "Yes"
+                od_obj['datastore_active_fr_s'] = "Oui"
+            else:
+                od_obj['datastore_active_en_s'] = "No"
+                od_obj['datastore_active_fr_s'] = "Non"
+
             od_list.append(od_obj)
             i += 1
             if i == bulk_size:
